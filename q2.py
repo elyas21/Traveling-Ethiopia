@@ -1,25 +1,4 @@
-state_space_graph = {
-  "Arad": [("Timisoara", 118), ("Sibiu", 140), ("Zerind", 75)],
-  "Bucharest": [("Urziceni", 85), ("Pitesti", 101), ("Giurgiu", 90)],
-  "Craiova": [("Dobreta", 120), ("Pitesti", 138), ("Rimnicu Vilcea", 146)],
-  "Dobreta": [("Mehadia", 75)],
-  "Eforie": [("Hirsova", 86)],
-  "Fagaras": [("Sibiu", 99)],
-  "Giurgiu": [("Ruse", 77)],
-  "Hirsova": [("Urziceni", 98)],
-  "Iasi": [("Vaslui", 92)],
-  "Lugoj": [("Timisoara", 111)],
-  "Mehadia": [("Drobeta Turnu Severin", 75)],
-  "Oradea": [("Zerind", 71)],
-  "Pitesti": [("Rimnicu Vilcea", 97)],
-  "Rimnicu Vilcea": [("Sibiu", 80)],
-  "Ruse": [("Giurgiu", 58)],
-  "Sibiu": [("Oradea", 151)],
-  "Timisoara": [("Lugoj", 111)],
-  "Urziceni": [("Vaslui", 142)],
-  "Vaslui": [("Iasi", 92)],
-  "Zerind": [("Arad", 75)],
-}
+
 state_space_graph_et = {
     'Asmera': [('Axum', 3), ('Adigrat', 6)],
     'Axum': [('Shire', 2), ('Adwa', 1), ('Asmera', 5)],

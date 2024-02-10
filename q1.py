@@ -1,25 +1,4 @@
-state_space_graph = {
-  "Arad": [("Timisoara", 118), ("Sibiu", 140), ("Zerind", 75)],
-  "Bucharest": [("Urziceni", 85), ("Pitesti", 101), ("Giurgiu", 90)],
-  "Craiova": [("Dobreta", 120), ("Pitesti", 138), ("Rimnicu Vilcea", 146)],
-  "Dobreta": [("Mehadia", 75)],
-  "Eforie": [("Hirsova", 86)],
-  "Fagaras": [("Sibiu", 99)],
-  "Giurgiu": [("Ruse", 77)],
-  "Hirsova": [("Urziceni", 98)],
-  "Iasi": [("Vaslui", 92)],
-  "Lugoj": [("Timisoara", 111)],
-  "Mehadia": [("Drobeta Turnu Severin", 75)],
-  "Oradea": [("Zerind", 71)],
-  "Pitesti": [("Rimnicu Vilcea", 97)],
-  "Rimnicu Vilcea": [("Sibiu", 80)],
-  "Ruse": [("Giurgiu", 58)],
-  "Sibiu": [("Oradea", 151)],
-  "Timisoara": [("Lugoj", 111)],
-  "Urziceni": [("Vaslui", 142)],
-  "Vaslui": [("Iasi", 92)],
-  "Zerind": [("Arad", 75)],
-}
+
 state_space_graph_et = {
     'Asmera': ['Axum', 'Adigrat'],
     'Axum': ['Shire', 'Adwa', 'Asmera'],
@@ -170,49 +149,24 @@ class Searcher:
                     stack.append((neighbor, path + [state]))
 
         return None
+initial_state = 'Dessie'
+goal_state = 'Dollo'
 
-    def uniform_cost_search(self):
-        """
-        Performs a Uniform Cost Search (UCS) on the state space graph.
-        :return: The path from the initial state to the goal state,
-                or None if the goal state is not found.
-        """
-        visited = set()
-        queue = [(0, self.initial_state, [])]  # (cost, state, path)
+# Create a Searcher object
+searcher = Searcher(state_space_graph_et, initial_state, goal_state)
 
-        while queue:
-            cost, state, path = heapq.heappop(queue)
-            visited.add(state)
+# Perform BFS and DFS searches
+bfs_path = searcher.search("bfs")
+dfs_path = searcher.search("dfs")
 
-            if state == self.goal_state:
-                return path + [state]
-            print(self.graph[state])
-            for neighbor, neighbor_cost in self.graph[state]:
-                if neighbor not in visited:
-                    total_cost = cost + neighbor_cost
-                    heapq.heappush(queue, (total_cost, neighbor, path + [state]))
+print(type(bfs_path))
+# Print the results
+if bfs_path:
+  print("BFS Path:", bfs_path[::-1])
+else:
+  print("BFS failed to find a path.")
 
-        return None
-# initial_state = 'Dessie'
-# goal_state = 'Dollo'
-
-# # Create a Searcher object
-# searcher = Searcher(state_space_graph_et, initial_state, goal_state)
-
-# # Perform BFS and DFS searches
-# bfs_path = searcher.search("bfs")
-# dfs_path = searcher.search("dfs")
-
-# # Print the results
-# if bfs_path:
-#   print("BFS Path:", bfs_path)
-# else:
-#   print("BFS failed to find a path.")
-
-# if dfs_path:
-#   print("DFS Path:", dfs_path)
-# else:
-#   print("DFS failed to find a path.")
-searcher = Searcher(state_space_graph, "Bucharest", "Sibiu")
-path = searcher.uniform_cost_search()
-print("Path:", path)
+if dfs_path:
+  print("DFS Path:", dfs_path[::-1])
+else:
+  print("DFS failed to find a path.")
