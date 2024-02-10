@@ -15,7 +15,7 @@ def pathcost(path, step_costs):
         cost += step_costs[path[s]][path[s+1]]
     return cost
 
-map_distances = dict( {'Addis Ababa': {'Adama':3, 'Ambo':5, 'Debre Berhan':5,'Debre Markos':13},
+state_space_graph_et = dict( {'Addis Ababa': {'Adama':3, 'Ambo':5, 'Debre Berhan':5,'Debre Markos':13},
              'Adama': {'Matahara':3, 'Asella':4, 'Batu':4, 'Addis Ababa':3}, 
              'Ambo': {'Wolkite':6, 'Addis Ababa':5, 'Nekemte':8}, 
              'Debre Berhan': {'Addis Ababa':5, 'Debre Sina':2},
@@ -104,7 +104,7 @@ map_distances = dict( {'Addis Ababa': {'Adama':3, 'Ambo':5, 'Debre Berhan':5,'De
              'Werdez': { 'Kebri Dehar':6}
                       }
                     )
-sld_Moyale=dict({
+Moyale_dist=dict({
              'Addis Ababa':26,
              'Adama':23,
              'Ambo':31,
@@ -236,11 +236,8 @@ class Frontier_PQ():
             if tup[1]==state:
                 self.q[i][0]=cost
 
-def heuristic_sld_Moyale(state):
-    return sld_Moyale[state]
-print(heuristic_sld_Moyale("Moyale"))
 
-def astar_search(start, goal, state_graph, heuristic, return_cost, return_nexp):
+def AStar(start, goal, state_graph,  return_cost, return_nexp):
     frontier = Frontier_PQ(start)
     visited = set()
     prev = {start:None}
@@ -257,7 +254,7 @@ def astar_search(start, goal, state_graph, heuristic, return_cost, return_nexp):
        
         for adj in state_graph[curr]:
             if adj not in visited:
-                new_cost = cost + state_graph[curr][adj] + heuristic(adj) - heuristic(curr)
+                new_cost = cost + state_graph[curr][adj] + Moyale_dist[adj] - Moyale_dist[curr]
                 if adj not in frontier.states:
                     prev[adj] = curr
                     frontier.add(adj, new_cost)
@@ -265,9 +262,9 @@ def astar_search(start, goal, state_graph, heuristic, return_cost, return_nexp):
                     prev[adj] = curr
                     frontier.replace(adj, new_cost)
 
+initial_state = 'Addis Ababa'
+goal_state = "Moyale"
 
-
-ret = astar_search("Addis Ababa", "Moyale", map_distances, heuristic_sld_Moyale, True, True)
-print("optimal path using A*:", ret[0])
-print("optimal path cost using A*:", ret[1])
-print("Number of states expanded during search using A*:", ret[2])
+ret = AStar(initial_state, goal_state, state_space_graph_et,  True, True)
+print("path:", ret[0])
+print("cost", ret[1])
