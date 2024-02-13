@@ -85,6 +85,9 @@ state_space_graph_et = {
     'Mokadisho':['Gode']
 }
 import heapq
+
+from util.queue import Queue
+from util.stack import Stack
 class Searcher:
 
     def __init__(self, state_space_graph, initial_state, goal_state):
@@ -105,7 +108,6 @@ class Searcher:
             return self.depth_first_search()
         else:
             raise ValueError("Invalid search strategy:", strategy)
-
     def breadth_first_search(self):
         """
         Performs a Breadth-First Search (BFS) on the state space graph.
@@ -113,10 +115,11 @@ class Searcher:
                 or None if the goal state is not found.
         """
         visited = set()
-        queue = [(self.initial_state, [])]
+        queue = Queue()
+        queue.enqueue((self.initial_state, []))
 
-        while queue:
-            state, path = queue.pop(0)
+        while not queue.is_empty():
+            state, path = queue.dequeue()
             visited.add(state)
 
             if state == self.goal_state:
@@ -124,7 +127,7 @@ class Searcher:
 
             for neighbor in self.graph[state]:
                 if neighbor not in visited:
-                    queue.append((neighbor, path + [state]))
+                    queue.enqueue((neighbor, path + [state]))
 
         return None
 
@@ -135,9 +138,10 @@ class Searcher:
                 or None if the goal state is not found.
         """
         visited = set()
-        stack = [(self.initial_state, [])]
+        stack = Stack()
+        stack.push((self.initial_state, []))
 
-        while stack:
+        while not stack.is_empty():
             state, path = stack.pop()
             visited.add(state)
 
@@ -146,7 +150,7 @@ class Searcher:
 
             for neighbor in self.graph[state]:
                 if neighbor not in visited:
-                    stack.append((neighbor, path + [state]))
+                    stack.push((neighbor, path + [state]))
 
         return None
 initial_state = 'Dessie'
